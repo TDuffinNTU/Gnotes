@@ -44,27 +44,58 @@ class _MyHomePageState extends ConsumerState<MyHomePage> {
       body: Center(
         child: Padding(
           padding: const EdgeInsets.all(30),
-          child: ListView(
-            children: List.generate(
-              notes.length,
-              (index) => _buildNote(context, index, notes[index].content),
-            ),
+          child: AnimatedList(
+            key: ref.read(animatedListKeyProvider),
+            itemBuilder: (context, index, animation) {
+              return NoteWidget(
+                animation: animation,
+                context: context,
+                index: index,
+                content: notes[index].content,
+              );
+            },
           ),
         ),
       ),
       floatingActionButton: TextButton(
-        child: const Text('Add Note'),
-        onPressed: () => ref.watch(notesProvider.notifier).addNote('New Note'),
-      ),
+          child: const Text('Add Note'),
+          onPressed: () {
+            ref.watch(notesProvider.notifier).addNote('New Note');
+          }),
     );
   }
+}
 
-  Widget _buildNote(BuildContext context, int index, String content) {
-    return AdwActionRow(
-      title: content,
-      onActivated: () => Navigator.of(context).push(
-        MaterialPageRoute(
-          builder: (context) => EditNoteScreen(index: index),
+class NoteWidget extends StatelessWidget {
+  const NoteWidget({
+    Key? key,
+    required this.context,
+    required this.index,
+    required this.content,
+    required this.animation,
+  }) : super(key: key);
+
+  final BuildContext context;
+  final int index;
+  final String content;
+  final Animation<double> animation;
+
+  @override
+  Widget build(BuildContext context) {
+    return SlideTransition(
+      // TODO sort out this anim...
+      position: Tween<Offset>(begin: Offset(-.5, 0), end: Offset.zero).animate(
+          CurvedAnimation(parent: animation, curve: Curves.elasticInOut)),
+      child: AdwActionRow(
+        title: content,
+        end: IconButton(
+          icon: Icon(Icons.delete),
+          onPressed: () {},
+        ),
+        onActivated: () => Navigator.of(context).push(
+          MaterialPageRoute(
+            builder: (context) => EditNoteScreen(index: index),
+          ),
         ),
       ),
     );

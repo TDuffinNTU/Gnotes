@@ -1,8 +1,11 @@
-import 'package:flutter/foundation.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-final notesProvider =
-    StateNotifierProvider<NotesNotifier, List<Note>>((ref) => NotesNotifier());
+final animatedListKeyProvider =
+    Provider((ref) => GlobalKey<AnimatedListState>());
+
+final notesProvider = StateNotifierProvider<NotesNotifier, List<Note>>(
+    (ref) => NotesNotifier(listKey: ref.read(animatedListKeyProvider)));
 
 @immutable
 class Note {
@@ -15,9 +18,17 @@ class Note {
 }
 
 class NotesNotifier extends StateNotifier<List<Note>> {
-  NotesNotifier() : super([]);
+  GlobalKey<AnimatedListState> listKey;
 
-  void addNote(String content) => state = [...state, Note(content: content)];
+  NotesNotifier({required this.listKey}) : super([]);
+
+  AnimatedListState? get _animatedList => listKey.currentState;
+
+  void addNote(String content) {
+    state = [...state, Note(content: content)];
+    _animatedList!
+        .insertItem(state.length - 1, duration: Duration(milliseconds: 500));
+  }
 
   void setNote(int index, String newContent) {
     state = [
@@ -31,6 +42,7 @@ class NotesNotifier extends StateNotifier<List<Note>> {
       for (int i = 0; i < state.length; i++)
         if (index != i) state[i]
     ];
+    _animatedList!.removeItem(index, (context, animation) => Container());
   }
 
   Note getNote(int index) => state[index];
