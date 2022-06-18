@@ -1,6 +1,6 @@
 # Gnotes
 
-
+https://user-images.githubusercontent.com/43959652/174459030-9bbe40e9-c5ad-4fab-8bf0-cd0092ee164f.mp4
 
 A simple note taking app in Flutter.
 Using the Libadwaita packages to create a genuine Gnome-like app with all the benefits of Flutter - From animations to state management, null safety, and the potential to port across multiple platforms.
