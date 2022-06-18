@@ -26,8 +26,8 @@ class NotesNotifier extends StateNotifier<List<Note>> {
 
   void addNote(String content) {
     state = [...state, Note(content: content)];
-    _animatedList!
-        .insertItem(state.length - 1, duration: Duration(milliseconds: 500));
+    _animatedList!.insertItem(state.length - 1,
+        duration: const Duration(milliseconds: 500));
   }
 
   void setNote(int index, String newContent) {
@@ -42,6 +42,7 @@ class NotesNotifier extends StateNotifier<List<Note>> {
       for (int i = 0; i < state.length; i++)
         if (index != i) state[i]
     ];
+    // TODO implement removeditembuilder
     _animatedList!.removeItem(index, (context, animation) => Container());
   }
 

@@ -84,12 +84,13 @@ class NoteWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return SlideTransition(
       // TODO sort out this anim...
-      position: Tween<Offset>(begin: Offset(-.5, 0), end: Offset.zero).animate(
-          CurvedAnimation(parent: animation, curve: Curves.elasticInOut)),
+      position: Tween<Offset>(begin: const Offset(-.5, 0), end: Offset.zero)
+          .animate(
+              CurvedAnimation(parent: animation, curve: Curves.elasticInOut)),
       child: AdwActionRow(
         title: content,
         end: IconButton(
-          icon: Icon(Icons.delete),
+          icon: const Icon(Icons.delete),
           onPressed: () {},
         ),
         onActivated: () => Navigator.of(context).push(
