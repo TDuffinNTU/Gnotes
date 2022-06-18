@@ -1,16 +1,33 @@
-# my_app
+# Gnotes
 
-A new Flutter project.
+
+
+A simple note taking app in Flutter.
+Using the Libadwaita packages to create a genuine Gnome-like app with all the benefits of Flutter - From animations to state management, null safety, and the potential to port across multiple platforms.
+
+## Features
+
+So far the app is pretty barebones, and can't actually store to disk yet! This is coming up soon though. Here's a lowdown on the initial goals:
+
+- Theming: Gnotes will automatically match the  GNOME theme of your linux system, whether that is light or dark mode. I will look at how I can extend this further with "unity" theming for Ubuntu distros.
+
+- Notes: Gnotes aims to be simple, and initially will only support text input (incl. emoji). Will look at markdown support down the line.
+
+- Animations: Flutter will enable Gnotes to have rich and meaningful animations, something that cannot be matched by native GTK apps without significant effort.
+
+- Portability: I aim to make Gnotes for Linux first, and other platforms later, but that doesn't mean I haven't considered porting the app to mobile platforms.
 
 ## Getting Started
 
-This project is a starting point for a Flutter application.
+If you want to help out, awesome! This project is super new, and everything is welcome.
 
-A few resources to get you started if this is your first Flutter project:
+This project is using the cutting edge stable flutter release as of June 2022 - Flutter 3.0.0.
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+Clone the project to your system and crack it open in VSCode and let it handle the rest. (TODO - Add better contribution notes!)
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+If you struggle getting it cloned and running on your system I'll try my best to help.
+
+## Releases
+
+No releases yet, so stay tuned for that! 0.1 coming once I've got saving/loading to disk working.
+
