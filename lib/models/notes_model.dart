@@ -27,7 +27,7 @@ class NotesNotifier extends StateNotifier<List<Note>> {
   void addNote(String content) {
     state = [...state, Note(content: content)];
     _animatedList!.insertItem(state.length - 1,
-        duration: const Duration(milliseconds: 500));
+        duration: const Duration(milliseconds: 100));
   }
 
   void setNote(int index, String newContent) {

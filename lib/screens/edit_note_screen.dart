@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:my_app/notes_model.dart';
+import 'package:my_app/models/notes_model.dart';
 
 class EditNoteScreen extends ConsumerWidget {
   final int index;
