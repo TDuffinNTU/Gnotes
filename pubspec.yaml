@@ -37,6 +37,7 @@ dependencies:
   libadwaita: ^1.2.0
   adwaita: ^0.5.2
   flutter_riverpod: ^1.0.4
+  contextual_menu: ^0.1.2
 
 dev_dependencies:
   flutter_test:
