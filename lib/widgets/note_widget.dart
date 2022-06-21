@@ -8,7 +8,7 @@ import 'package:my_app/models/notes_model.dart';
 import '../screens/edit_note_screen.dart';
 
 class NoteWidget extends ConsumerWidget {
-  NoteWidget({
+  const NoteWidget({
     Key? key,
     required this.context,
     required this.index,
@@ -35,25 +35,35 @@ class NoteWidget extends ConsumerWidget {
           },
           onPointerUp: (event) async {
             if (rightClickEvent) {
-              await popUpContextualMenu(_menu,
+              await popUpContextualMenu(_buildMenu(ref),
                   position: Offset(
                     event.position.dx,
                     event.position.dy,
                   ),
-                  placement: Placement.bottomLeft);
+                  placement: Placement.bottomRight);
             }
           },
-          child: AdwActionRow(
-            title: content,
-            end: IconButton(
-              icon: const Icon(Icons.delete),
-              onPressed: () {
-                ref.read(notesProvider.notifier).delNote(index);
-              },
-            ),
-            onActivated: () => Navigator.of(context).push(
-              MaterialPageRoute(
-                builder: (context) => EditNoteScreen(index: index),
+          child: Card(
+            child: Container(
+              constraints: const BoxConstraints(
+                minWidth: 100,
+                maxWidth: 300,
+                minHeight: 200,
+                maxHeight: 200,
+              ),
+              child: AdwActionRow(
+                title: content,
+                end: IconButton(
+                  icon: const Icon(Icons.delete),
+                  onPressed: () {
+                    ref.read(notesProvider.notifier).delNote(index);
+                  },
+                ),
+                onActivated: () => Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) => EditNoteScreen(index: index),
+                  ),
+                ),
               ),
             ),
           ),
@@ -62,28 +72,17 @@ class NoteWidget extends ConsumerWidget {
     );
   }
 
-  final Menu _menu = Menu(
-    items: [
-      MenuItem(
-        label: 'Copy',
-        onClick: (_) {
-          print('Clicked Copy');
-        },
-      ),
-      MenuItem(
-        label: 'Disabled item',
-        disabled: true,
-      ),
-      MenuItem.checkbox(
-        key: 'checkbox1',
-        label: 'Checkbox1',
-        checked: true,
-        onClick: (menuItem) {
-          print('Clicked Checkbox1');
-          menuItem.checked = !(menuItem.checked == true);
-        },
-      ),
-      MenuItem.separator(),
-    ],
-  );
+  Menu _buildMenu(WidgetRef ref) {
+    return Menu(
+      items: [
+        MenuItem(
+          label: 'Delete',
+          icon: 'audio-volume-high-symbolic',
+          onClick: (_) => ref.read(notesProvider.notifier).delNote(index),
+        ),
+        MenuItem(label: 'Edit'),
+        MenuItem(label: 'Duplicate'),
+      ],
+    );
+  }
 }
