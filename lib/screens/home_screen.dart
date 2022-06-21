@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:my_app/widgets/note_widget.dart';
 import 'package:my_app/models/notes_model.dart';
+import 'package:my_app/widgets/screen_space.dart';
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
@@ -33,8 +34,7 @@ class _MyHomePageState extends ConsumerState<MyHomePage> {
     List<Note> notes = ref.watch(notesProvider);
     return Scaffold(
       body: Center(
-        child: Padding(
-          padding: const EdgeInsets.all(30),
+        child: ScreenSpacing(
           child: AnimatedList(
             key: ref.read(animatedListKeyProvider),
             itemBuilder: (context, index, animation) {
