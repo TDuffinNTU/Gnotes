@@ -18,9 +18,9 @@ class Note {
 }
 
 class NotesNotifier extends StateNotifier<List<Note>> {
-  GlobalKey<AnimatedListState> listKey;
-
   NotesNotifier({required this.listKey}) : super([]);
+
+  final GlobalKey<AnimatedListState> listKey;
 
   AnimatedListState? get _animatedList => listKey.currentState;
 
