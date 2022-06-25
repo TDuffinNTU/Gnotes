@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:my_app/models/note_model.dart';
+import 'package:my_app/models/notes/note_model.dart';
 
 final animatedListKeyProvider =
     Provider((ref) => GlobalKey<AnimatedListState>());

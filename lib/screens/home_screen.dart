@@ -1,9 +1,9 @@
 import 'package:adwaita/adwaita.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:my_app/models/note_model.dart';
+import 'package:my_app/models/notes/note_model.dart';
 import 'package:my_app/widgets/note_widget.dart';
-import 'package:my_app/models/notes_notifier.dart';
+import 'package:my_app/models/notes/notes_notifier.dart';
 import 'package:my_app/widgets/screen_space.dart';
 
 class MyApp extends StatelessWidget {
