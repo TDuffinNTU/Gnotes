@@ -34,8 +34,8 @@ class _MyHomePageState extends ConsumerState<MyHomePage> {
   Widget build(BuildContext context) {
     List<NoteModel> notes = ref.watch(notesProvider);
     return Scaffold(
-      body: Center(
-        child: ScreenSpacing(
+      body: ScreenSpacing(
+        child: Center(
           child: AnimatedList(
             key: ref.read(animatedListKeyProvider),
             itemBuilder: (context, index, animation) {
@@ -50,10 +50,11 @@ class _MyHomePageState extends ConsumerState<MyHomePage> {
         ),
       ),
       floatingActionButton: TextButton(
-          child: const Text('Add Note'),
-          onPressed: () {
-            ref.watch(notesProvider.notifier).addNote('New Note');
-          }),
+        child: const Text('Add Note'),
+        onPressed: () {
+          ref.watch(notesProvider.notifier).addNote('New Note');
+        },
+      ),
     );
   }
 }
