@@ -1,8 +1,9 @@
 import 'package:adwaita/adwaita.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:my_app/models/note_model.dart';
 import 'package:my_app/widgets/note_widget.dart';
-import 'package:my_app/models/notes_model.dart';
+import 'package:my_app/models/notes_notifier.dart';
 import 'package:my_app/widgets/screen_space.dart';
 
 class MyApp extends StatelessWidget {
@@ -31,7 +32,7 @@ class MyHomePage extends ConsumerStatefulWidget {
 class _MyHomePageState extends ConsumerState<MyHomePage> {
   @override
   Widget build(BuildContext context) {
-    List<Note> notes = ref.watch(notesProvider);
+    List<NoteModel> notes = ref.watch(notesProvider);
     return Scaffold(
       body: Center(
         child: ScreenSpacing(

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:my_app/models/notes_model.dart';
+import 'package:my_app/models/notes_notifier.dart';
 import 'package:my_app/widgets/screen_space.dart';
 
 class EditNoteScreen extends ConsumerWidget {

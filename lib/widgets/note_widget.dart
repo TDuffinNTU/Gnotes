@@ -3,7 +3,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart' hide MenuItem;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:libadwaita/libadwaita.dart';
-import 'package:my_app/models/notes_model.dart';
+import 'package:my_app/models/notes_notifier.dart';
 
 import '../screens/edit_note_screen.dart';
 
