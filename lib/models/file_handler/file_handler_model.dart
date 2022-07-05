@@ -31,6 +31,7 @@ class FileHandler {
   /// Creates the file if it doesn't already exist.
   Future<void> saveNote() async {
     // TODO figure out how we'll sync (likely a unique ID)
+    // how about dateTime of creation??
     throw UnimplementedError();
   }
 }

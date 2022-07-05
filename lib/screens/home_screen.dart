@@ -4,12 +4,11 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:my_app/models/notes/note_model.dart';
 import 'package:my_app/widgets/note_widget.dart';
 import 'package:my_app/models/notes/notes_notifier.dart';
-import 'package:my_app/widgets/screen_space.dart';
+import 'package:my_app/widgets/spacing.dart';
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -34,18 +33,23 @@ class _MyHomePageState extends ConsumerState<MyHomePage> {
   Widget build(BuildContext context) {
     List<NoteModel> notes = ref.watch(notesProvider);
     return Scaffold(
-      body: ScreenSpacing(
-        child: Center(
-          child: AnimatedList(
-            key: ref.read(animatedListKeyProvider),
-            itemBuilder: (context, index, animation) {
-              return NoteWidget(
-                animation: animation,
-                context: context,
-                index: index,
-                content: notes[index].content,
-              );
-            },
+      body: Center(
+        child: SingleChildScrollView(
+          child: Spacing.screenSpacer(
+            child: notes.isEmpty
+                ? const Text('Add a note below...')
+                : Wrap(
+                    spacing: Spacing.noteHorizontal,
+                    runSpacing: Spacing.noteVertical,
+                    children: List.generate(
+                      notes.length,
+                      (index) => NoteWidget(
+                        context: context,
+                        index: index,
+                        content: notes[index].content,
+                      ),
+                    ),
+                  ),
           ),
         ),
       ),

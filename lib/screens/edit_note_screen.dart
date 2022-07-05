@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:my_app/models/notes/notes_notifier.dart';
-import 'package:my_app/widgets/screen_space.dart';
+import 'package:my_app/widgets/spacing.dart';
 
 class EditNoteScreen extends ConsumerWidget {
   final int index;
@@ -13,7 +13,7 @@ class EditNoteScreen extends ConsumerWidget {
     // read used here because otherwise we're gonna have a bad time
     final TextEditingController tec =
         TextEditingController(text: ref.read(notesProvider)[index].content);
-    return ScreenSpacing(
+    return Spacing.screenSpacer(
       child: Column(
         children: [
           Card(
