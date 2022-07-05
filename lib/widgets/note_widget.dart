@@ -21,6 +21,7 @@ class NoteWidget extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    _executeAfterBuild();
     bool rightClickEvent = false;
     return Listener(
       onPointerDown: (event) {
@@ -75,5 +76,12 @@ class NoteWidget extends ConsumerWidget {
         MenuItem(label: 'Duplicate'),
       ],
     );
+  }
+
+  Future<void> _executeAfterBuild() async {
+    // as this is an async function, it will be scheduled for the next frame after
+    // flutter has built our widget.
+
+    // TODO start our animation here! (likely make note widget stateful too...)
   }
 }
