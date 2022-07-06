@@ -47,5 +47,5 @@ app.*.map.json
 /android/app/release
 
 # Flutter code generation (use 'flutter pub run build_runner build' to create locally!)]
-.g.dart
-.freezed.dart
+*.g.dart
+*.freezed.dart
