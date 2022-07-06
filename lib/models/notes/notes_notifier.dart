@@ -9,7 +9,13 @@ class NotesNotifier extends StateNotifier<List<NoteModel>> {
 
   // TODO can we use local_hero somehow..?
   void addNote(String content) {
-    state = [...state, NoteModel(content: content)];
+    state = [
+      ...state,
+      NoteModel(
+        content: content,
+        created: DateTime.now(),
+      )
+    ];
   }
 
   void setNote(int index, String newContent) {

@@ -5,7 +5,10 @@ part 'note_model.g.dart';
 
 @freezed
 class NoteModel with _$NoteModel {
-  factory NoteModel({required String content}) = _NoteModel;
+  factory NoteModel({
+    required String content,
+    required DateTime created,
+  }) = _NoteModel;
 
   factory NoteModel.fromJson(Map<String, dynamic> json) =>
       _$NoteModelFromJson(json);
