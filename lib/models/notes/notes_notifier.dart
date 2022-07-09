@@ -7,7 +7,6 @@ final notesProvider = StateNotifierProvider<NotesNotifier, List<NoteModel>>(
 class NotesNotifier extends StateNotifier<List<NoteModel>> {
   NotesNotifier() : super([]);
 
-  // TODO can we use local_hero somehow..?
   void addNote(String content) {
     state = [
       ...state,

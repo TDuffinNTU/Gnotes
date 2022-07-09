@@ -1,10 +1,10 @@
 import 'package:adwaita/adwaita.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:libadwaita/libadwaita.dart';
+import 'package:libadwaita_bitsdojo/libadwaita_bitsdojo.dart';
 import 'package:my_app/models/notes/note_model.dart';
-import 'package:my_app/widgets/note_widget.dart';
 import 'package:my_app/models/notes/notes_notifier.dart';
-import 'package:my_app/widgets/spacing.dart';
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
@@ -29,35 +29,83 @@ class MyHomePage extends ConsumerStatefulWidget {
 }
 
 class _MyHomePageState extends ConsumerState<MyHomePage> {
+  bool notesDrawerOpen = true;
+
   @override
   Widget build(BuildContext context) {
     List<NoteModel> notes = ref.watch(notesProvider);
-    return Scaffold(
-      body: Center(
-        child: SingleChildScrollView(
-          child: Spacing.screenSpacer(
-            child: notes.isEmpty
-                ? const Text('Add a note below...')
-                : Wrap(
-                    spacing: Spacing.noteHorizontal,
-                    runSpacing: Spacing.noteVertical,
-                    children: List.generate(
-                      notes.length,
-                      (index) => NoteWidget(
-                        context: context,
-                        index: index,
-                        content: notes[index].content,
-                      ),
-                    ),
-                  ),
+    return AdwScaffold(
+      start: [
+        SizedBox(
+          width: 300,
+          child: Padding(
+            padding: const EdgeInsets.only(right: 8.0),
+            child: Flex(
+              direction: Axis.horizontal,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                AdwHeaderButton(
+                  onPressed: () => setState(() {
+                    notesDrawerOpen = !notesDrawerOpen;
+                  }),
+                  icon: const Icon(Icons.menu),
+                ),
+                const Text('Notes'),
+                AdwHeaderButton(
+                  icon: const Icon(Icons.add),
+                  onPressed: () {
+                    setState(() {
+                      notes.add(
+                        NoteModel(
+                          content: 'content',
+                          created: DateTime.now(),
+                        ),
+                      );
+                    });
+                  },
+                ),
+              ],
+            ),
+          ),
+        )
+      ],
+      actions: AdwActions().bitsdojo,
+      body: Row(
+        children: [
+          // ignore: prefer_const_constructors
+          if (notesDrawerOpen) NotesDrawer(), // code smell?
+          Expanded(
+            child: Container(
+              color: Colors.black,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class NotesDrawer extends ConsumerWidget {
+  const NotesDrawer({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    List<NoteModel> notes = ref.watch(notesProvider);
+
+    return SizedBox(
+      width: 300,
+      child: ListView(
+        children: List.generate(
+          notes.length,
+          (index) => ListTile(
+            isThreeLine: true,
+            subtitle: Text(notes[index].created.toString()),
+            title: Text(notes[index].content),
+            onTap: () {},
           ),
         ),
-      ),
-      floatingActionButton: TextButton(
-        child: const Text('Add Note'),
-        onPressed: () {
-          ref.watch(notesProvider.notifier).addNote('New Note');
-        },
       ),
     );
   }
