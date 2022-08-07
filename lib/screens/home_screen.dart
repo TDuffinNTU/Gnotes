@@ -30,56 +30,46 @@ class MyHomePage extends ConsumerStatefulWidget {
 
 class _MyHomePageState extends ConsumerState<MyHomePage> {
   bool notesDrawerOpen = true;
+  // pull this out into a state management class imo
+  int selectedNote = -1;
 
   @override
   Widget build(BuildContext context) {
     List<NoteModel> notes = ref.watch(notesProvider);
-    return AdwScaffold(
-      start: [
-        SizedBox(
-          width: 300,
-          child: Padding(
-            padding: const EdgeInsets.only(right: 8.0),
-            child: Flex(
-              direction: Axis.horizontal,
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                AdwHeaderButton(
-                  onPressed: () => setState(() {
-                    notesDrawerOpen = !notesDrawerOpen;
-                  }),
-                  icon: const Icon(Icons.menu),
-                ),
-                const Text('Notes'),
-                AdwHeaderButton(
-                  icon: const Icon(Icons.add),
-                  onPressed: () {
-                    setState(() {
-                      notes.add(
-                        NoteModel(
-                          content: 'content',
-                          created: DateTime.now(),
-                        ),
-                      );
-                    });
-                  },
-                ),
-              ],
+    return Scaffold(
+      appBar: AppBar(
+        actions: [
+          IconButton(
+            onPressed: () => notes.add(
+              NoteModel(
+                content: "new note",
+                created: DateTime.now(),
+              ),
             ),
-          ),
-        )
-      ],
-      actions: AdwActions().bitsdojo,
+            icon: const Icon(Icons.add),
+          )
+        ],
+      ),
       body: Row(
         children: [
-          // ignore: prefer_const_constructors
           if (notesDrawerOpen) NotesDrawer(), // code smell?
-          Expanded(
-            child: Container(
-              color: Colors.black,
-            ),
-          ),
+          NoteView(),
         ],
+      ),
+    );
+  }
+}
+
+class NoteView extends StatelessWidget {
+  const NoteView({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Expanded(
+      child: Container(
+        color: Colors.black,
       ),
     );
   }
@@ -96,17 +86,21 @@ class NotesDrawer extends ConsumerWidget {
 
     return SizedBox(
       width: 300,
-      child: ListView(
-        children: List.generate(
-          notes.length,
-          (index) => ListTile(
-            isThreeLine: true,
-            subtitle: Text(notes[index].created.toString()),
-            title: Text(notes[index].content),
-            onTap: () {},
-          ),
-        ),
-      ),
+      child: notes.isEmpty
+          ? const Center(
+              child: Text('Add a note...'),
+            )
+          : ListView(
+              children: List.generate(
+                notes.length,
+                (index) => ListTile(
+                  isThreeLine: true,
+                  subtitle: Text(notes[index].created.toString()),
+                  title: Text(notes[index].content),
+                  onTap: () {},
+                ),
+              ),
+            ),
     );
   }
 }
