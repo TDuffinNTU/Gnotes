@@ -4,24 +4,22 @@ import 'package:flutter/material.dart' hide MenuItem;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:libadwaita/libadwaita.dart';
 import 'package:my_app/models/notes/notes_notifier.dart';
+import 'package:my_app/widgets/spacing.dart';
 
 import '../screens/edit_note_screen.dart';
 
 class NoteWidget extends ConsumerWidget {
   const NoteWidget({
     Key? key,
-    required this.context,
     required this.index,
     required this.content,
   }) : super(key: key);
 
-  final BuildContext context;
   final int index;
   final String content;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    _executeAfterBuild();
     bool rightClickEvent = false;
     return Listener(
       onPointerDown: (event) {
@@ -30,33 +28,39 @@ class NoteWidget extends ConsumerWidget {
       },
       onPointerUp: (event) async {
         if (rightClickEvent) {
-          await popUpContextualMenu(_buildMenu(ref),
-              position: Offset(
-                event.position.dx,
-                event.position.dy,
-              ),
-              placement: Placement.bottomRight);
+          await popUpContextualMenu(
+            _buildMenu(ref),
+            position: Offset(
+              event.position.dx,
+              event.position.dy,
+            ),
+            placement: Placement.bottomRight,
+          );
         }
       },
-      child: Card(
-        child: Container(
-          constraints: const BoxConstraints(
-            minWidth: 100,
-            maxWidth: 350,
-            minHeight: 200,
-            maxHeight: 200,
-          ),
-          child: AdwActionRow(
-            title: content,
-            end: IconButton(
-              icon: const Icon(Icons.delete),
-              onPressed: () {
-                ref.read(notesProvider.notifier).delNote(index);
-              },
+      child: Padding(
+        padding: const EdgeInsets.symmetric(
+            horizontal: Spacing.noteHorizontal, vertical: Spacing.noteVertical),
+        child: Card(
+          child: Container(
+            constraints: const BoxConstraints(
+              minWidth: 100,
+              maxWidth: 350,
+              minHeight: 80,
+              maxHeight: 80,
             ),
-            onActivated: () => Navigator.of(context).push(
-              MaterialPageRoute(
-                builder: (context) => EditNoteScreen(index: index),
+            child: AdwActionRow(
+              title: content,
+              end: IconButton(
+                icon: const Icon(Icons.delete),
+                onPressed: () {
+                  ref.read(notesProvider.notifier).delNote(index);
+                },
+              ),
+              onActivated: () => Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (context) => EditNoteScreen(index: index),
+                ),
               ),
             ),
           ),
@@ -77,11 +81,32 @@ class NoteWidget extends ConsumerWidget {
       ],
     );
   }
+}
 
-  Future<void> _executeAfterBuild() async {
-    // as this is an async function, it will be scheduled for the next frame after
-    // flutter has built our widget.
+// TODO make the the note widget reusable (so we don't need to have to identical widgets here!)
+class DeletingNoteWidget extends StatelessWidget {
+  const DeletingNoteWidget({Key? key, required this.content}) : super(key: key);
 
-    // TODO start our animation here! (likely make note widget stateful too...)
+  final String content;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(
+          horizontal: Spacing.noteHorizontal, vertical: Spacing.noteVertical),
+      child: Card(
+        child: Container(
+          constraints: const BoxConstraints(
+            minWidth: 100,
+            maxWidth: 350,
+            minHeight: 80,
+            maxHeight: 80,
+          ),
+          child: AdwActionRow(
+            title: content,
+          ),
+        ),
+      ),
+    );
   }
 }
