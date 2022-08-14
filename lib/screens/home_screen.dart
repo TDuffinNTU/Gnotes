@@ -4,8 +4,13 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:my_app/models/notes/note_model.dart';
 import 'package:my_app/models/notes/notes_notifier.dart';
 import 'package:my_app/widgets/notes_appbar_contet.dart';
-import 'package:my_app/widgets/notes_drawer.dart';
+import 'package:my_app/widgets/notes_list_view.dart';
 import 'package:my_app/widgets/spacing.dart';
+import 'package:window_manager/window_manager.dart';
+
+/// Provides a key to keep the scaffold's state in sync with the window state
+final homeScreenScaffoldKeyProvider =
+    Provider<GlobalKey<ScaffoldState>>((ref) => GlobalKey());
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
@@ -31,24 +36,49 @@ class MyHomePage extends ConsumerStatefulWidget {
 
 class _MyHomePageState extends ConsumerState<MyHomePage> {
   @override
+  void initState() {
+    super.initState();
+    // have to set this constantly since some window manager behaviours break the min.size request!
+    windowManager.setMinimumSize(Spacing.minimumWindowSize);
+  }
+
+  @override
   Widget build(BuildContext context) {
-    List<NoteModel> notes = ref.watch(notesProvider);
+    bool isWidescreenLayout =
+        MediaQuery.of(context).size.width > Spacing.smallLayoutSize;
+
+    // closes the drawer before we destroy it, otherwise we can cause some lifecycle issues
+    if (!isWidescreenLayout) {
+      final scaffoldState =
+          ref.read(homeScreenScaffoldKeyProvider).currentState!;
+      if (scaffoldState.hasDrawer) {
+        scaffoldState.closeDrawer();
+      }
+    }
+
+    List<NoteModel> notes = ref.read(notesProvider);
     return Scaffold(
+      key: ref.read(homeScreenScaffoldKeyProvider),
       appBar: AppBar(
         // TODO grab title from "selected note" provider
         title: const Text('TITLE GOES HERE'),
         centerTitle: true,
-        leading: const NotesAppbarContent(),
+        leading: isWidescreenLayout ? null : const NotesAppbarContent(),
       ),
-      drawer: const NotesDrawer(),
-      body: Center(
-        child: SingleChildScrollView(
-          child: Spacing.screenSpacer(
-            child:
-                notes.isEmpty ? const Text('Add a note below...') : Container(),
-          ),
-        ),
-      ),
+      drawer: isWidescreenLayout ? null : const Drawer(child: NotesListView()),
+      body: isWidescreenLayout
+          ? Flex(
+              direction: Axis.horizontal,
+              children: [
+                const SizedBox(
+                  width: 250,
+                  child: NotesListView(),
+                ),
+                VerticalDivider(),
+                Container(),
+              ],
+            )
+          : Container(),
     );
   }
 }

@@ -16,4 +16,10 @@ class Spacing {
         padding: const EdgeInsets.all(screen),
         child: child,
       );
+
+  /// The minimum size of the window before we enforce a smaller screen layout.
+  static const double smallLayoutSize = 350;
+
+  /// Minimum size of the program.
+  static const Size minimumWindowSize = Size(300, 600);
 }

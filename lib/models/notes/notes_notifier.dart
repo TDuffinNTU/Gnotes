@@ -3,10 +3,11 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:my_app/models/notes/note_model.dart';
 import 'package:my_app/widgets/note_widget.dart';
 
+/// Provides information about the notes, and synchronises this with UI elements.
 final notesProvider = StateNotifierProvider<NotesNotifier, List<NoteModel>>(
-    (ref) =>
-        NotesNotifier(animatedListKey: ref.watch(animatedListKeyProvider)));
+    (ref) => NotesNotifier(animatedListKey: ref.read(animatedListKeyProvider)));
 
+/// Provides a key to synchronise the state of the animated list and the notes provider
 final animatedListKeyProvider =
     Provider<GlobalKey<AnimatedListState>>((ref) => GlobalKey());
 
