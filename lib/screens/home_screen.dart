@@ -1,8 +1,6 @@
 import 'package:adwaita/adwaita.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:my_app/models/notes/note_model.dart';
-import 'package:my_app/models/notes/notes_notifier.dart';
 import 'package:my_app/widgets/notes_appbar_contet.dart';
 import 'package:my_app/widgets/notes_list_view.dart';
 import 'package:my_app/widgets/spacing.dart';
@@ -55,8 +53,6 @@ class _MyHomePageState extends ConsumerState<MyHomePage> {
         scaffoldState.closeDrawer();
       }
     }
-
-    List<NoteModel> notes = ref.read(notesProvider);
     return Scaffold(
       key: ref.read(homeScreenScaffoldKeyProvider),
       appBar: AppBar(
@@ -74,7 +70,7 @@ class _MyHomePageState extends ConsumerState<MyHomePage> {
                   width: 250,
                   child: NotesListView(),
                 ),
-                VerticalDivider(),
+                const VerticalDivider(),
                 Container(),
               ],
             )
