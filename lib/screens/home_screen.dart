@@ -33,18 +33,21 @@ class MyHomePage extends ConsumerStatefulWidget {
 }
 
 class _MyHomePageState extends ConsumerState<MyHomePage> {
-  @override
-  void initState() {
-    super.initState();
-    // have to set this constantly since some window manager behaviours break the min.size request!
-    windowManager.setMinimumSize(Spacing.minimumWindowSize);
-  }
+  // @override
+  // void initState() {
+  //   super.initState();
+  // }
 
   @override
   Widget build(BuildContext context) {
     bool isWidescreenLayout =
         MediaQuery.of(context).size.width > Spacing.smallLayoutSize;
 
+    // have to set this constantly since some window manager behaviours break the min.size request!
+    if (!isWidescreenLayout) {
+      // we need a better solution as I fear this is will cause perf. issues
+      windowManager.setMinimumSize(Spacing.minimumWindowSize);
+    }
     // closes the drawer before we destroy it, otherwise we can cause some lifecycle issues
     if (!isWidescreenLayout) {
       final scaffoldState =
