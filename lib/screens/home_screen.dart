@@ -4,7 +4,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:my_app/widgets/notes_appbar_contet.dart';
 import 'package:my_app/widgets/notes_list_view.dart';
 import 'package:my_app/widgets/spacing.dart';
-import 'package:window_manager/window_manager.dart';
 
 /// Provides a key to keep the scaffold's state in sync with the window state
 final homeScreenScaffoldKeyProvider =
@@ -33,21 +32,11 @@ class MyHomePage extends ConsumerStatefulWidget {
 }
 
 class _MyHomePageState extends ConsumerState<MyHomePage> {
-  // @override
-  // void initState() {
-  //   super.initState();
-  // }
-
   @override
   Widget build(BuildContext context) {
     bool isWidescreenLayout =
         MediaQuery.of(context).size.width > Spacing.smallLayoutSize;
 
-    // have to set this constantly since some window manager behaviours break the min.size request!
-    if (!isWidescreenLayout) {
-      // we need a better solution as I fear this is will cause perf. issues
-      windowManager.setMinimumSize(Spacing.minimumWindowSize);
-    }
     // closes the drawer before we destroy it, otherwise we can cause some lifecycle issues
     if (!isWidescreenLayout) {
       final scaffoldState =
