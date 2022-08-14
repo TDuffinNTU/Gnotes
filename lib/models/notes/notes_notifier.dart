@@ -26,7 +26,7 @@ class NotesNotifier extends StateNotifier<List<NoteModel>> {
 
     animatedListKey.currentState!.insertItem(
       state.length - 1,
-      duration: const Duration(milliseconds: 250),
+      duration: const Duration(milliseconds: 100),
     );
   }
 
@@ -44,13 +44,21 @@ class NotesNotifier extends StateNotifier<List<NoteModel>> {
         if (index != i) state[i]
     ];
 
+    // TODO elevate UI from model
+    // TODO smooth shuffling of list contents
     animatedListKey.currentState!.removeItem(
-        index,
-        (context, animation) => ScaleTransition(
-            scale: animation,
-            child: DeletingNoteWidget(
-              content: toDelete.content,
-            )));
+      index,
+      duration: const Duration(milliseconds: 250),
+      (context, animation) => SlideTransition(
+        position:
+            Tween<Offset>(begin: const Offset(-1, 0), end: const Offset(0, 0))
+                .animate(CurvedAnimation(
+                    parent: animation, curve: Curves.fastLinearToSlowEaseIn)),
+        child: DeletingNoteWidget(
+          content: toDelete.content,
+        ),
+      ),
+    );
   }
 
   NoteModel getNote(int index) => state[index];
