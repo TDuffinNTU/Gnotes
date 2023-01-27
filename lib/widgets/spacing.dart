@@ -22,4 +22,7 @@ class Spacing {
 
   /// Minimum size of the program.
   static const Size minimumWindowSize = Size(300, 600);
+
+  static bool isWideScreen(BuildContext context) =>
+      MediaQuery.of(context).size.width > Spacing.smallLayoutSize;
 }

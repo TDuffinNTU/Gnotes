@@ -34,11 +34,10 @@ class MyHomePage extends ConsumerStatefulWidget {
 class _MyHomePageState extends ConsumerState<MyHomePage> {
   @override
   Widget build(BuildContext context) {
-    bool isWidescreenLayout =
-        MediaQuery.of(context).size.width > Spacing.smallLayoutSize;
+    bool widescreen = Spacing.isWideScreen(context);
 
-    // closes the drawer before we destroy it, otherwise we can cause some lifecycle issues
-    if (!isWidescreenLayout) {
+    // Close the drawer before we destroy it.
+    if (!widescreen) {
       final scaffoldState =
           ref.read(homeScreenScaffoldKeyProvider).currentState!;
       if (scaffoldState.hasDrawer) {
@@ -51,10 +50,10 @@ class _MyHomePageState extends ConsumerState<MyHomePage> {
         // TODO grab title from "selected note" provider
         title: const Text('TITLE GOES HERE'),
         centerTitle: true,
-        leading: isWidescreenLayout ? null : const NotesAppbarContent(),
+        leading: widescreen ? null : const NotesAppbarContent(),
       ),
-      drawer: isWidescreenLayout ? null : const Drawer(child: NotesListView()),
-      body: isWidescreenLayout
+      drawer: widescreen ? null : const Drawer(child: NotesListView()),
+      body: widescreen
           ? Flex(
               direction: Axis.horizontal,
               children: [

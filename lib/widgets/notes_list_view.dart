@@ -4,6 +4,7 @@ import 'package:intersperse/intersperse.dart';
 import 'package:libadwaita/libadwaita.dart';
 import 'package:my_app/models/notes/notes_notifier.dart';
 import 'package:my_app/widgets/note_widget.dart';
+import 'package:my_app/widgets/spacing.dart';
 
 class NotesListView extends ConsumerWidget {
   const NotesListView({Key? key}) : super(key: key);
@@ -24,11 +25,11 @@ class NotesListView extends ConsumerWidget {
                 child: const Icon(Icons.add),
               ),
               const Text('Your Notes'),
-              AdwButton(
-                // TODO remove this when not in a drawer since it pops the bottom of the navstack >.<
-                onPressed: Navigator.of(context).pop,
-                child: const Icon(Icons.chevron_left),
-              )
+              if (!Spacing.isWideScreen(context))
+                AdwButton(
+                  onPressed: Navigator.of(context).pop,
+                  child: const Icon(Icons.chevron_left),
+                )
             ].intersperse(const SizedBox(width: 8)).toList(),
           ),
         ),
