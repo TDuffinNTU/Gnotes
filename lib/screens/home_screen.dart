@@ -1,13 +1,10 @@
 import 'package:adwaita/adwaita.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:my_app/widgets/notes_appbar_contet.dart';
-import 'package:my_app/widgets/notes_list_view.dart';
 import 'package:my_app/widgets/spacing.dart';
 
-/// Provides a key to keep the scaffold's state in sync with the window state
-final homeScreenScaffoldKeyProvider =
-    Provider<GlobalKey<ScaffoldState>>((ref) => GlobalKey());
+import '../widgets/notes_shade.dart';
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
@@ -15,7 +12,6 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Notes',
       theme: AdwaitaThemeData.light(),
       darkTheme: AdwaitaThemeData.dark(),
       debugShowCheckedModeBanner: false,
@@ -32,40 +28,48 @@ class MyHomePage extends ConsumerStatefulWidget {
 }
 
 class _MyHomePageState extends ConsumerState<MyHomePage> {
+  var open = false;
+
   @override
   Widget build(BuildContext context) {
-    bool widescreen = Spacing.isWideScreen(context);
-
-    // Close the drawer before we destroy it.
-    if (!widescreen) {
-      final scaffoldState =
-          ref.read(homeScreenScaffoldKeyProvider).currentState!;
-      if (scaffoldState.hasDrawer) {
-        scaffoldState.closeDrawer();
-      }
-    }
     return Scaffold(
-      key: ref.read(homeScreenScaffoldKeyProvider),
-      appBar: AppBar(
-        // TODO grab title from "selected note" provider
-        title: const Text('TITLE GOES HERE'),
-        centerTitle: true,
-        leading: widescreen ? null : const NotesAppbarContent(),
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: Theme.of(context).cardColor,
+        onPressed: () => setState(() {
+          open = !open;
+        }),
+        tooltip: 'Toggle Notes Shade',
+        child: const Icon(Icons.menu),
       ),
-      drawer: widescreen ? null : const Drawer(child: NotesListView()),
-      body: widescreen
-          ? Flex(
-              direction: Axis.horizontal,
-              children: [
-                const SizedBox(
-                  width: 250,
-                  child: NotesListView(),
-                ),
-                const VerticalDivider(),
-                Container(),
-              ],
-            )
-          : Container(),
+      body: Stack(
+        children: [
+          // TODO create a state provider for isOpen and other homepage state rubbish...
+          NoteView(isOpen: open),
+          NotesShade(isOpen: open),
+        ],
+      ),
+    );
+  }
+}
+
+class NoteView extends StatelessWidget {
+  const NoteView({super.key, required this.isOpen});
+
+  final bool isOpen;
+
+  @override
+  Widget build(BuildContext context) {
+    final height = MediaQuery.of(context).size.height;
+    return Align(
+      alignment: Alignment.bottomCenter,
+      child: AnimatedContainer(
+        duration: 100.ms,
+        curve: Curves.easeInOutCubicEmphasized,
+        height: isOpen ? height - Spacing.shadeHeight : height,
+        child: Spacing.screenSpacer(
+          child: const Placeholder(),
+        ),
+      ),
     );
   }
 }

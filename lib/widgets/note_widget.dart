@@ -1,6 +1,6 @@
 import 'package:contextual_menu/contextual_menu.dart';
 import 'package:flutter/gestures.dart';
-import 'package:flutter/material.dart' hide MenuItem;
+import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:libadwaita/libadwaita.dart';
 import 'package:my_app/models/notes/notes_notifier.dart';
@@ -38,29 +38,25 @@ class NoteWidget extends ConsumerWidget {
           );
         }
       },
-      child: Padding(
-        padding: const EdgeInsets.symmetric(
-            horizontal: Spacing.noteHorizontal, vertical: Spacing.noteVertical),
-        child: Card(
-          child: Container(
-            constraints: const BoxConstraints(
-              minWidth: 100,
-              maxWidth: 350,
-              minHeight: 80,
-              maxHeight: 80,
+      child: Card(
+        child: Container(
+          constraints: const BoxConstraints(
+            minWidth: 100,
+            maxWidth: 350,
+            minHeight: 80,
+            maxHeight: 80,
+          ),
+          child: AdwActionRow(
+            title: content,
+            end: IconButton(
+              icon: const Icon(Icons.delete),
+              onPressed: () {
+                ref.read(notesProvider.notifier).delNote(index);
+              },
             ),
-            child: AdwActionRow(
-              title: content,
-              end: IconButton(
-                icon: const Icon(Icons.delete),
-                onPressed: () {
-                  ref.read(notesProvider.notifier).delNote(index);
-                },
-              ),
-              onActivated: () => Navigator.of(context).push(
-                MaterialPageRoute(
-                  builder: (context) => EditNoteScreen(index: index),
-                ),
+            onActivated: () => Navigator.of(context).push(
+              MaterialPageRoute(
+                builder: (context) => EditNoteScreen(index: index),
               ),
             ),
           ),
@@ -91,20 +87,16 @@ class DeletingNoteWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(
-          horizontal: Spacing.noteHorizontal, vertical: Spacing.noteVertical),
-      child: Card(
-        child: Container(
-          constraints: const BoxConstraints(
-            minWidth: 100,
-            maxWidth: 350,
-            minHeight: 80,
-            maxHeight: 80,
-          ),
-          child: AdwActionRow(
-            title: content,
-          ),
+    return Card(
+      child: Container(
+        constraints: const BoxConstraints(
+          minWidth: 100,
+          maxWidth: 350,
+          minHeight: 80,
+          maxHeight: 80,
+        ),
+        child: AdwActionRow(
+          title: content,
         ),
       ),
     );

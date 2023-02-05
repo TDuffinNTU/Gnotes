@@ -6,6 +6,7 @@ import 'package:my_app/models/notes/notes_notifier.dart';
 import 'package:my_app/widgets/note_widget.dart';
 import 'package:my_app/widgets/spacing.dart';
 
+/// DEPRECATED.
 class NotesListView extends ConsumerWidget {
   const NotesListView({Key? key}) : super(key: key);
 
@@ -14,8 +15,7 @@ class NotesListView extends ConsumerWidget {
     return Flex(
       direction: Axis.vertical,
       children: [
-        Padding(
-          padding: const EdgeInsets.all(16),
+        Spacing.screenSpacer(
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
@@ -24,13 +24,17 @@ class NotesListView extends ConsumerWidget {
                     ref.read(notesProvider.notifier).addNote('New Note'),
                 child: const Icon(Icons.add),
               ),
-              const Text('Your Notes'),
+              //const Text('Your Notes'),
               if (!Spacing.isWideScreen(context))
                 AdwButton(
                   onPressed: Navigator.of(context).pop,
                   child: const Icon(Icons.chevron_left),
                 )
-            ].intersperse(const SizedBox(width: 8)).toList(),
+            ]
+                .intersperse(
+                  const SizedBox(width: Spacing.cardSpacing),
+                )
+                .toList(),
           ),
         ),
         const Divider(),

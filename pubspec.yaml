@@ -43,6 +43,7 @@ dependencies:
   json_serializable: ^6.2.0
   intersperse: ^2.0.0
   window_manager: ^0.2.5
+  flutter_animate: ^3.1.0
 
 dev_dependencies:
   flutter_test:
