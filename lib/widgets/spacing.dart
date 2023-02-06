@@ -18,7 +18,7 @@ class Spacing {
   static const double shadeHeight = 200;
 
   /// The padding between notes cards.
-  static const double cardSpacing = 8;
+  static const double cardSpacing = 16;
 
   /// Minimum size of the program.
   static const Size minimumWindowSize = Size(300, 600);

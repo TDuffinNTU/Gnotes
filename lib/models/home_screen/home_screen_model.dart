@@ -1,0 +1,1 @@
+//TODO homescreen model to monitor - selected note, current state of shade 

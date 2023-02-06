@@ -4,10 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:libadwaita/libadwaita.dart';
 import 'package:my_app/models/notes/notes_notifier.dart';
-import 'package:my_app/widgets/spacing.dart';
 
 import '../screens/edit_note_screen.dart';
 
+/// DEPRECATED
 class NoteWidget extends ConsumerWidget {
   const NoteWidget({
     Key? key,
@@ -75,30 +75,6 @@ class NoteWidget extends ConsumerWidget {
         MenuItem(label: 'Edit'),
         MenuItem(label: 'Duplicate'),
       ],
-    );
-  }
-}
-
-// TODO make the the note widget reusable (so we don't need to have to identical widgets here!)
-class DeletingNoteWidget extends StatelessWidget {
-  const DeletingNoteWidget({Key? key, required this.content}) : super(key: key);
-
-  final String content;
-
-  @override
-  Widget build(BuildContext context) {
-    return Card(
-      child: Container(
-        constraints: const BoxConstraints(
-          minWidth: 100,
-          maxWidth: 350,
-          minHeight: 80,
-          maxHeight: 80,
-        ),
-        child: AdwActionRow(
-          title: content,
-        ),
-      ),
     );
   }
 }
