@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:my_app/models/home_screen/home_screen_notifier.dart';
 import 'package:my_app/models/notes/notes_notifier.dart';
 import 'package:my_app/widgets/note_widget.dart';
 import 'package:my_app/widgets/spacing.dart';
 
 class NotesShade extends ConsumerWidget {
-  const NotesShade({super.key, required this.isOpen});
-
-  final bool isOpen;
+  const NotesShade({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -49,7 +48,7 @@ class NotesShade extends ConsumerWidget {
       ),
     )
         .animate(
-          target: isOpen ? 0 : 1,
+          target: ref.watch(homeScreenStateProvider).isNoteShadeOpen ? 0 : 1,
         )
         .slideY(
           duration: 200.ms,
