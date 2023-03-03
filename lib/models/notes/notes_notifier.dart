@@ -1,5 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:my_app/models/notes/note_model.dart';
+import 'package:uuid/uuid.dart';
 
 /// Provides information about the notes, and synchronises this with UI elements.
 final notesProvider = StateNotifierProvider<NotesNotifier, List<NoteModel>>(
@@ -8,29 +9,28 @@ final notesProvider = StateNotifierProvider<NotesNotifier, List<NoteModel>>(
 class NotesNotifier extends StateNotifier<List<NoteModel>> {
   NotesNotifier() : super([]);
 
-  void addNote(String content) {
+  void addNote() {
+    final id = const Uuid().v1();
+
     state = [
       ...state,
       NoteModel(
-        content: content,
+        id: id,
+        content: id,
         created: DateTime.now(),
       )
     ];
   }
 
-  void setNote(int index, String newContent) {
+  void updateNote(NoteModel updatedNote) {
     state = [
-      for (int i = 0; i < state.length; i++)
-        index == i ? state[i].copyWith(content: newContent) : state[i]
+      for (NoteModel note in state)
+        note.id == updatedNote.id ? updatedNote : note
     ];
   }
 
-  void delNote(int index) {
-    state = [
-      for (int i = 0; i < state.length; i++)
-        if (index != i) state[i]
-    ];
+  void deleteNote(NoteModel toDelete) {
+    // TODO check if homescreenstatemodel is showing this note and unselect it on delete!
+    state = state.where((note) => note.id != toDelete.id).toList();
   }
-
-  NoteModel getNote(int index) => state[index];
 }

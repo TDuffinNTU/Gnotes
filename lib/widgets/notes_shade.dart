@@ -13,6 +13,7 @@ class NotesShade extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     // Sync the scrolling state of the notes view to the scrollbar.
     final scrollController = ScrollController();
+    final notes = ref.watch(notesProvider);
 
     return Container(
       color: Theme.of(context).cardColor,
@@ -24,7 +25,7 @@ class NotesShade extends ConsumerWidget {
             minHeight: Spacing.shadeHeight,
             minWidth: double.infinity,
           ),
-          child: ref.read(notesProvider).isEmpty
+          child: notes.isEmpty
               ? const Center(child: Text('No Notes'))
               : SingleChildScrollView(
                   controller: scrollController,
@@ -32,13 +33,10 @@ class NotesShade extends ConsumerWidget {
                   child: Row(
                     children: [
                       ...List.generate(
-                        ref.watch(notesProvider).length,
+                        notes.length,
                         (index) => AspectRatio(
                           aspectRatio: 1,
-                          child: NoteWidget(
-                            index: index,
-                            content: ref.watch(notesProvider)[index].content,
-                          ),
+                          child: NoteWidget(note: notes[index]),
                         ),
                       ),
                     ],

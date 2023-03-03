@@ -39,8 +39,7 @@ class _MyHomePageState extends ConsumerState<MyHomePage> {
         children: [
           FloatingActionButton(
             backgroundColor: Theme.of(context).cardColor,
-            onPressed: () =>
-                ref.read(notesProvider.notifier).addNote('Hello poop!'),
+            onPressed: ref.read(notesProvider.notifier).addNote,
           ),
           const SizedBox(
             height: 8,

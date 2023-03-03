@@ -3,16 +3,16 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:my_app/models/notes/notes_notifier.dart';
 import 'package:my_app/widgets/spacing.dart';
 
-class EditNoteScreen extends ConsumerWidget {
-  final int index;
+import '../models/notes/note_model.dart';
 
-  const EditNoteScreen({Key? key, required this.index}) : super(key: key);
+class EditNoteScreen extends ConsumerWidget {
+  const EditNoteScreen({super.key, required this.note});
+
+  final NoteModel note;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    // read used here because otherwise we're gonna have a bad time
-    final TextEditingController tec =
-        TextEditingController(text: ref.read(notesProvider)[index].content);
+    final TextEditingController tec = TextEditingController(text: note.content);
     return Spacing.screenSpacer(
       child: Column(
         children: [
@@ -28,14 +28,14 @@ class EditNoteScreen extends ConsumerWidget {
             children: [
               TextButton(
                 onPressed: () {
-                  ref.watch(notesProvider.notifier).setNote(index, tec.text);
+                  ref.watch(notesProvider.notifier).updateNote(note);
                   Navigator.of(context).pop();
                 },
                 child: const Text('Save'),
               ),
               TextButton(
                 onPressed: () {
-                  ref.watch(notesProvider.notifier).delNote(index);
+                  ref.watch(notesProvider.notifier).deleteNote(note);
                   Navigator.of(context).pop();
                 },
                 child: const Text('Delete'),

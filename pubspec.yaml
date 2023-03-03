@@ -44,6 +44,8 @@ dependencies:
   intersperse: ^2.0.0
   window_manager: ^0.2.5
   flutter_animate: ^3.1.0
+  uuid: ^3.0.7
+  json_annotation: ^4.8.0
 
 dev_dependencies:
   flutter_test:
