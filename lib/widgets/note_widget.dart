@@ -48,6 +48,7 @@ class NoteWidget extends ConsumerWidget {
               maxHeight: 80,
             ),
             child: AdwActionRow(
+              // TODO Get rid of adw stuff. Let's use material 3 if possible.
               title: note.content,
               end: IconButton(
                 icon: const Icon(Icons.delete),
